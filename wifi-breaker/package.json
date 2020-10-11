@@ -1,0 +1,16 @@
+{
+  "name": "wifi-breaker",
+  "version": "1.0.0",
+  "description": "Wifi turn on off from home router",
+  "main": "index.js",
+  "scripts": {
+    "run": "node wifi.js"
+  },
+  "author": "Tommy Huang",
+  "license": "ISC",
+  "dependencies": {
+    "apify": "^0.21.0",
+    "fs": "0.0.1-security",
+    "puppeteer": "^2.1.1"
+  }
+}
