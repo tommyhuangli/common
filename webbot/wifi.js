@@ -1,5 +1,6 @@
 const Apify = require('apify');
 const fs = require('fs');
+const config = require('./config.json');
 
 Apify.main(async () => {
     // const browser = await puppeteer.launch({ headless: true });
@@ -9,17 +10,15 @@ Apify.main(async () => {
     const browser = await Apify.launchPuppeteer({ headless: true, ignoreHTTPSErrors: true });
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36');
-    // await page.goto('https://99.105.211.80:39535/cgi-bin/wmacauth.ha');
-    await page.goto('http://192.168.199.254/cgi-bin/wmacauth.ha');
+    await page.goto(config.wifi.att_base + '/cgi-bin/wmacauth.ha');
     await page.screenshot({ path: 'logs/wifi_login.jpg', type: 'jpeg' });
 
     let password = await page.$('#password');
     if (password != null) {
         // Login
         console.log('Logging in...');
-        // await page.type('#username', 'tech');
-        // await page.type('#password', 'Qwer.12345');
-        await page.type('#password', 'fancythat1');
+        await page.type('#username', config.wifi.username);
+        await page.type('#password', config.wifi.password);
         await page.click('[name="Continue"]');
         await page.waitForNavigation();
         await page.screenshot({ path: 'logs/wifi_auth.jpg', type: 'jpeg' });

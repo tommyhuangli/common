@@ -1,5 +1,6 @@
 const Apify = require('apify');
 const fs = require('fs');
+const config = require('./config.json');
 
 Apify.main(async () => {
     // const browser = await puppeteer.launch({ headless: true });
@@ -15,8 +16,8 @@ Apify.main(async () => {
     if (password != null) {
         // Login
         console.log('Logging in...');
-        await page.type('#inputEmailHandle', 'tommyhuangli@gmail.com');
-        await page.type('#inputPassword', 'fancythat!Q2w');
+        await page.type('#inputEmailHandle', config.cl.username);
+        await page.type('#inputPassword', config.cl.password);
         await page.click('#login');
         await page.waitForNavigation();
         await page.screenshot({ path: 'logs/cl_account.jpg', type: 'jpeg' });
