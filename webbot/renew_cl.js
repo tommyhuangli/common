@@ -6,7 +6,7 @@ Apify.main(async () => {
     // const browser = await puppeteer.launch({ headless: true });
     
     const COOKIE_FILE = 'cookies/craigslist.json';
-    const browser = await Apify.launchPuppeteer({ headless: true, ignoreHTTPSErrors: true });
+    const browser = await Apify.launchPuppeteer({ executablePath: '/snap/bin/chromium', headless: true, ignoreHTTPSErrors: true });
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36');
 
@@ -48,6 +48,7 @@ Apify.main(async () => {
         else {
             await page.$$eval('input[value="renew"]', links => links.forEach(link => link.click()))
         }
+        await page.goto('https://accounts.craigslist.org/login/home');
     }
 
     await page.close();
