@@ -5,7 +5,7 @@ const config = require('./config.json');
 Apify.main(async () => {
     // const browser = await puppeteer.launch({ headless: true });
     
-    const mac = 'b0:ca:68:bc:47:39'; //iPad 
+    const mac = config.wifi.mac;
 
     const browser = await Apify.launchPuppeteer({ headless: true, ignoreHTTPSErrors: true });
     const page = await browser.newPage();
