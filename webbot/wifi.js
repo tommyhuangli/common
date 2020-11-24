@@ -17,27 +17,26 @@ Apify.main(async () => {
     if (password != null) {
         // Login
         console.log('Logging in...');
-        await page.type('#username', config.wifi.username);
+        // await page.type('#username', config.wifi.username);
         await page.type('#password', config.wifi.password);
         await page.click('[name="Continue"]');
         await page.waitForNavigation();
         await page.screenshot({ path: 'logs/wifi_auth.jpg', type: 'jpeg' });
     }
 
-    hasMacAdded = false;
+    hasMacAdded = true;
+    let macDelBtn = await page.$('[name="	Remove_' + mac + '	"]');
+    if (macDelBtn == null) {
+        console.log('del button not found');
+        hasMacAdded = false;
+    }
 
     if (! hasMacAdded) {        
-        
         // add to black list
         console.log('Adding ' + mac + ' to black list');
         await page.type('#macaddress', mac);
         await page.click('[name="Add"]');
         await page.screenshot({ path: 'logs/wifi_auth-added.jpg', type: 'jpeg' });
-    }
-
-    let macDelBtn = await page.$('[name="	Remove_' + mac + '	"]');
-    if (macDelBtn == null) {
-        console.log('del button not found')
     }
 
     if (hasMacAdded) {
