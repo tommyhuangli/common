@@ -1,7 +1,7 @@
 export JAVA_HOME=~/dev/jdk
 export PATH=$JAVA_HOME:/bin:~/dev/mvn/bin:~/dev/node/bin:$PATH
 export CLICOLOR=1
-export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd
+export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
 alias ll='ls -ltrhG'
 
 # Load version control information
