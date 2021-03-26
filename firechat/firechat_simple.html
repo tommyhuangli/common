@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+
+    <!-- Firechat -->
+    <link rel="stylesheet" href="https://cdn.firebase.com/libs/firechat/3.0.1/firechat.min.css" />
+    <script src="https://cdn.firebase.com/libs/firechat/3.0.1/firechat.min.js"></script>
+
+  </head>
+  <body>
+    <script>
+      var config = {
+        apiKey: "AIzaSyDi3Dldl6q4ZVqW0eQQVOogVQXdP6vqovY",
+        authDomain: "rcwchat.firebaseapp.com",
+        projectId: "rcwchat",
+        storageBucket: "rcwchat.appspot.com",
+        messagingSenderId: "324770882341",
+        appId: "1:324770882341:web:67ee9037cf6ea92024f0cc",
+        measurementId: "G-VBCLD8E2WW"
+      };
+      firebase.initializeApp(config);
+      function login() {
+        // Log the user in via Twitter
+        var provider = new firebase.auth.TwitterAuthProvider();
+        firebase.auth().signInWithPopup(provider).catch(function(error) {
+          console.log("Error authenticating user:", error);
+        });
+      }
+
+      firebase.auth().onAuthStateChanged(function(user) {
+        // Once authenticated, instantiate Firechat with the logged in user
+        if (user) {
+          initChat(user);
+        }
+      });
+
+      function initChat(user) {
+        // Get a Firebase Database ref
+        var chatRef = firebase.database().ref("chat");
+
+        // Create a Firechat instance
+        var chat = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
+
+        // Set the Firechat user
+        chat.setUser(user.uid, user.displayName);
+      }
+    </script>
+
+    <div id="firechat-wrapper">
+      <button onclick="login('twitter');">Login with Twitter</button>
+    </div>
+  </body>
+</html>
