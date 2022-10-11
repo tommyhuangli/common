@@ -1,0 +1,1 @@
+ssh -i ~/.ssh/tommy.pem ubuntu@a6.x-camp.academy

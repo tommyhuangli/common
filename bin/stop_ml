@@ -1,0 +1,1 @@
+aws --profile xcamp --region us-west-2 ec2 stop-instances --instance-ids `cat ~/.ml_ec2_id`

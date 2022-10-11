@@ -1,0 +1,7 @@
+ec2_id=`cat ~/.ml_ec2_id`
+aws --profile xcamp --region us-west-2 ec2 start-instances --instance-ids $ec2_id
+echo "AWS instance started at "`date`
+#sleep 30
+ip=`aws --profile xcamp --region us-west-2 ec2 describe-instances --instance-ids $ec2_id |grep PublicIpAddress | awk -F'"' '{print $4}'`
+aws --profile xcamp --region us-west-2 route53 change-resource-record-sets --hosted-zone-id Z3QY84Y72XGVWN --change-batch '{"Comment":"","Changes":[{"Action":"UPSERT","ResourceRecordSet":{"Name":"ml.x-camp.academy.","Type":"A","TTL":300,"ResourceRecords":[{"Value":"'$ip'"}]}}]}'
+echo "IP address is $ip"
