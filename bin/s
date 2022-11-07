@@ -1,0 +1,2 @@
+export ENVIRONMENT=$1
+aws eks update-kubeconfig --name $ENVIRONMENT-k8s-cluster

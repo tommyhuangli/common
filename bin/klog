@@ -1,0 +1,1 @@
+kubectl logs `kubectl get pods -n unifiedcare | tail -1 |awk '{print $1}'` -n unifiedcare $1
