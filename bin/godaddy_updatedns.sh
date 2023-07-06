@@ -14,20 +14,20 @@
  
 domain="aegisai.us"                       # your domain
 type="A"                                    # Record type A, CNAME, MX, etc.
-name="cloudera"                                  # name of record to update
+name="ml"                                  # name of record to update
 ttl="600"                                  # Time to Live min value 600
 port="1"                                    # Required port, Min value 1
 weight="1"                                  # Required weight, Min value 1
-key="enrEQqqJ1gUG_124NjqCcoCt7EkZL2jR3yy"            # key for godaddy developer API
-secret="LknJy67dNQeR5r5voPfa4W"         # secret for godaddy developer API
  
-headers="Authorization: sso-key $key:$secret"
+headers="Authorization: sso-key $GODADDY_KEY:$GODADDY_SECRET"
  
-echo $headers
+#echo $headers
  
 result=$(curl -s -X GET -H "$headers" \
  "https://api.godaddy.com/v1/domains/$domain/records/$type/$name")
- 
+
+echo $result
+
 dnsIp=$(echo $result | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b")
  echo "dnsIp:" $dnsIp
  
