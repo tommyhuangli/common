@@ -14,7 +14,7 @@
  
 domain="aegisai.us"                       # your domain
 type="A"                                    # Record type A, CNAME, MX, etc.
-name="ml"                                  # name of record to update
+name=$1                                  # name of record to update
 ttl="600"                                  # Time to Live min value 600
 port="1"                                    # Required port, Min value 1
 weight="1"                                  # Required weight, Min value 1
@@ -31,11 +31,16 @@ echo $result
 dnsIp=$(echo $result | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b")
  echo "dnsIp:" $dnsIp
  
-# Get public ip address there are several websites that can do this.
-ret=$(curl -s GET "http://ipinfo.io/json")
-#echo $ret
-currentIp=$(echo $ret | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b")
- echo "currentIp:" $currentIp
+currentIp=$2
+if [ -z "$currentIp" ];
+ then
+  # Get public ip address there are several websites that can do this.
+  ret=$(curl -s GET "http://ipinfo.io/json")
+  #echo $ret
+  currentIp=$(echo $ret | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b")
+fi
+
+echo "currentIp:" $currentIp
  
 if [ $dnsIp != $currentIp ];
  then
@@ -50,3 +55,5 @@ fi
  then
       echo "IP's are equal, no update required"
 fi
+
+aws route53 change-resource-record-sets --hosted-zone-id /hostedzone/Z3QY84Y72XGVWN --change-batch '{"Changes":[{"Action":"UPSERT","ResourceRecordSet":{"Name":"a3.x-camp.academy","Type":"A","TTL":300,"ResourceRecords":[{"Value":"'$dnsIp'"}]}}]}'
